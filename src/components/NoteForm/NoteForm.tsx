@@ -44,7 +44,6 @@ export default function NoteForm({ onCloseModal }: NoteFormProps) {
 
   const handleSubmit = (values: FormValues) => {
     mutation.mutate(values);
-    onCloseModal();
   };
 
   return (

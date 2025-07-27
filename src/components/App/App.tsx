@@ -14,24 +14,27 @@ import { useDebouncedCallback } from "use-debounce";
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [SearchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["notes", page, SearchInput],
+    queryKey: ["notes", page, searchInput],
     queryFn: () =>
       fetchNotes({
         page,
         perPage: 12,
-        search: SearchInput,
+        search: searchInput,
       }),
     placeholderData: keepPreviousData,
   });
 
-  const updateSearchInput = useDebouncedCallback(setSearchInput, 300);
+  const updateSearchInput = useDebouncedCallback((newValue: string) => {
+    setPage(1);
+    setSearchInput(newValue);
+  }, 300);
 
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox value={SearchInput} onSearch={updateSearchInput} />
+        <SearchBox value={searchInput} onSearch={updateSearchInput} />
         {data && data.totalPages > 1 && (
           <Pagination
             currentPage={page}
