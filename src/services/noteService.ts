@@ -35,20 +35,12 @@ export const fetchNotes = async ({
   return response.data;
 };
 
-export const createNote = async (noteData: NewNoteData) => {
-  const response = await axiosBase.post<Note>(
-    "https://notehub-public.goit.study/api/notes",
-    noteData,
-    {
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN}`,
-      },
-    }
-  );
+export const createNote = async (noteData: NewNoteData): Promise<Note> => {
+  const response = await axiosBase.post<Note>("/notes", noteData);
   return response.data;
 };
 
-export const deleteNote = async (noteId: number) => {
-  const response = await axiosBase.delete(`/notes/${noteId}`);
+export const deleteNote = async (noteId: number): Promise<Note> => {
+  const response = await axiosBase.delete<Note>(`/notes/${noteId}`);
   return response.data;
 };
